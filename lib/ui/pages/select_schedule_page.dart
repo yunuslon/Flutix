@@ -1,15 +1,15 @@
 part of 'pages.dart';
 
-class SelectSchdeluPage extends StatefulWidget {
+class SelectSchedulPage extends StatefulWidget {
   final MovieDetail movieDetail;
 
-  const SelectSchdeluPage(this.movieDetail);
+  const SelectSchedulPage(this.movieDetail);
 
   @override
-  State<SelectSchdeluPage> createState() => _SelectSchdeluPageState();
+  State<SelectSchedulPage> createState() => _SelectSchedulPageState();
 }
 
-class _SelectSchdeluPageState extends State<SelectSchdeluPage> {
+class _SelectSchedulPageState extends State<SelectSchedulPage> {
   List<DateTime> dates;
   DateTime selectedDate;
 
