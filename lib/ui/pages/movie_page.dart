@@ -90,7 +90,7 @@ class MoviePage extends StatelessWidget {
             }
           }),
         ),
-        //? note: Now Playing
+        //* note: Now Playing
         Container(
           margin: EdgeInsets.fromLTRB(defaultMargin, 30, defaultMargin, 12),
           child: Text(

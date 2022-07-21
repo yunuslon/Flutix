@@ -16,32 +16,182 @@ class MovieDetailPage extends StatelessWidget {
         return;
       },
       child: Scaffold(
-        appBar: AppBar(title: Text("data")),
-        body: FutureBuilder(
-          builder: (_, snapshot) {
-            if (snapshot.hasData) {
-              movieDetail = snapshot.data;
-              return FutureBuilder(
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    credits = snapshot.data;
+        body: Stack(
+          children: <Widget>[
+            Container(color: accentColor1),
+            SafeArea(
+                child: Container(
+              color: Colors.white,
+            )),
+            ListView(
+              children: <Widget>[
+                FutureBuilder(
+                  future: MovieServices.getDetails(movie),
+                  builder: (_, snapshot) {
+                    if (snapshot.hasData) {
+                      movieDetail = snapshot.data;
+                    }
                     return Column(
                       children: <Widget>[
-                        Text(movieDetail.title),
-                        Text(movieDetail.genresAndLanguange),
-                        Column(
-                            children: credits.map((e) => Text(e.name)).toList())
+                        Stack(
+                          children: <Widget>[
+                            //* note: BackDrop
+                            Stack(
+                              children: <Widget>[
+                                Container(
+                                  height: 270,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(imageBaseURL +
+                                                  "w1280" +
+                                                  movie.backdropPath ??
+                                              movie.posterPath),
+                                          fit: BoxFit.cover)),
+                                ),
+                                Container(
+                                  height: 271,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment(0, 1),
+                                          end: Alignment(0, 0.06),
+                                          colors: [
+                                        Colors.white,
+                                        Colors.white.withOpacity(0)
+                                      ])),
+                                )
+                              ],
+                            ),
+                            //* note: Back Icon
+                            Container(
+                              margin:
+                                  EdgeInsets.only(top: 20, left: defaultMargin),
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black.withOpacity(0.94)),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    context
+                                        .bloc<PageBloc>()
+                                        .add(GoToMainPage());
+                                  },
+                                  child: Icon(Icons.arrow_back,
+                                      color: Colors.white)),
+                            )
+                          ],
+                        ),
+                        //* note: JUDUL
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                              defaultMargin, 16, defaultMargin, 6),
+                          child: Text(
+                            movie.title,
+                            textAlign: TextAlign.center,
+                            style: blackTextFont.copyWith(fontSize: 24),
+                          ),
+                        ),
+                        //* note: Genre
+                        (snapshot.hasData)
+                            ? Text(
+                                movieDetail.genresAndLanguange,
+                                style: greyTextFont.copyWith(
+                                    fontSize: 12, fontWeight: FontWeight.w400),
+                              )
+                            : SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: SpinKitFadingCircle(
+                                  color: accentColor3,
+                                ),
+                              ),
+                        SizedBox(height: 6),
+                        //* note: RATING
+                        RatingStart(
+                          voteAverage: movie.voteAverage,
+                          color: accentColor3,
+                          alignment: MainAxisAlignment.center,
+                        ),
+                        SizedBox(height: 24),
+                        //* note: CREDITS
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                              margin: EdgeInsets.only(
+                                  left: defaultMargin, bottom: 12),
+                              child: Text(
+                                "Cast & Crew",
+                                style: blackTextFont.copyWith(fontSize: 14),
+                              )),
+                        ),
+                        FutureBuilder(
+                            future: MovieServices.getCredits(movie.id),
+                            builder: (_, snapshot) {
+                              if (snapshot.hasData) {
+                                credits = snapshot.data;
+                                return SizedBox(
+                                  height: 115,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: credits.length,
+                                      itemBuilder: (_, index) => Container(
+                                          margin: EdgeInsets.only(
+                                              left: (index == 0)
+                                                  ? defaultMargin
+                                                  : 0,
+                                              right:
+                                                  (index == credits.length - 1)
+                                                      ? defaultMargin
+                                                      : 16),
+                                          child: CreditCard(credits[index]))),
+                                );
+                              } else {
+                                return SizedBox(
+                                    height: 50,
+                                    child: SpinKitFadingCircle(
+                                      color: accentColor1,
+                                    ));
+                              }
+                            }),
+                        //* note: STORYLINE
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                              defaultMargin, 24, defaultMargin, 8),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Storyline",
+                              style: blackTextFont,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                              defaultMargin, 0, defaultMargin, 30),
+                          child: Text(
+                            movie.overView,
+                            style: greyTextFont.copyWith(
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        //* note: BUTTON
+                        RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            color: mainColor,
+                            child: Text(
+                              "Continue to Book",
+                              style: whiteTextFont.copyWith(fontSize: 16),
+                            ),
+                            onPressed: () {}),
+                        SizedBox(height: defaultMargin)
                       ],
                     );
-                  } else {
-                    return SizedBox();
-                  }
-                },
-              );
-            } else {
-              return SizedBox();
-            }
-          },
+                  },
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );
