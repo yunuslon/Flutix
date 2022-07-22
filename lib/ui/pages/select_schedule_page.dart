@@ -12,6 +12,9 @@ class SelectSchedulPage extends StatefulWidget {
 class _SelectSchedulPageState extends State<SelectSchedulPage> {
   List<DateTime> dates;
   DateTime selectedDate;
+  int selectedTime;
+  Theater selectedTheater;
+  bool isValid = false;
 
   void initState() {
     super.initState();
@@ -43,19 +46,17 @@ class _SelectSchedulPageState extends State<SelectSchedulPage> {
                     Container(
                       margin: EdgeInsets.only(top: 20, left: defaultMargin),
                       padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.black.withOpacity(0.94)),
                       child: GestureDetector(
                           onTap: () {
                             context
                                 .bloc<PageBloc>()
                                 .add(GoToMovieDetailPage(widget.movieDetail));
                           },
-                          child: Icon(Icons.arrow_back, color: Colors.white)),
+                          child: Icon(Icons.arrow_back, color: Colors.black)),
                     ),
                   ],
                 ),
+                //* note: Choose Date
                 Container(
                   margin:
                       EdgeInsets.fromLTRB(defaultMargin, 20, defaultMargin, 16),
@@ -84,12 +85,90 @@ class _SelectSchedulPageState extends State<SelectSchedulPage> {
                           },
                         )),
                   ),
+                ), //* note: Choose TIME
+                generateTimeTable(),
+                //* note: Next Button
+                SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: BlocBuilder<UserBloc, UserState>(
+                    builder: (_, userState) {
+                      return FloatingActionButton(
+                        elevation: 0,
+                        backgroundColor:
+                            (isValid) ? mainColor : Color(0xffe4e4e4),
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: isValid ? Colors.white : Color(0xffbebebe),
+                        ),
+                        onPressed: () {
+                          if (isValid) {
+                            context.bloc<PageBloc>().add(GoToSelectSeatPage(
+                                Ticket(
+                                    widget.movieDetail,
+                                    selectedTheater,
+                                    DateTime(
+                                        selectedDate.year,
+                                        selectedDate.month,
+                                        selectedDate.day,
+                                        selectedTime),
+                                    randomAlphaNumeric(12).toUpperCase(),
+                                    null,
+                                    (userState as UserLoaded).user.name,
+                                    null)));
+                          }
+                        },
+                      );
+                    },
+                  ),
                 )
               ],
             )
           ],
         ),
       ),
+    );
+  }
+
+  Column generateTimeTable() {
+    List<int> schedule = List.generate(7, (i) => 10 + i * 2);
+    List<Widget> widgets = [];
+
+    for (var theater in dummyTheaters) {
+      widgets.add(Container(
+        margin: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 16),
+        child: Text(theater.name, style: blackTextFont.copyWith(fontSize: 20)),
+      ));
+      widgets.add(Container(
+          height: 50,
+          margin: EdgeInsets.only(bottom: 20),
+          child: ListView.builder(
+              itemCount: schedule.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_, i) => Container(
+                    margin: EdgeInsets.only(
+                        left: (i == 0) ? defaultMargin : 0,
+                        right: (i == schedule.length - 1) ? 16 : defaultMargin),
+                    child: SelectableBox(
+                      "${schedule[i]}:00",
+                      height: 50,
+                      isSelected: selectedTheater == theater &&
+                          selectedTime == schedule[i],
+                      isEnabled: schedule[i] > DateTime.now().hour ||
+                          selectedDate.day != DateTime.now().day,
+                      onTap: () {
+                        setState(() {
+                          selectedTheater = theater;
+                          selectedTime = schedule[i];
+                          isValid = true;
+                        });
+                      },
+                    ),
+                  ))));
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widgets,
     );
   }
 }
