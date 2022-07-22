@@ -29,7 +29,7 @@ class MovieServices {
     List genres = (data as Map<String, dynamic>)['genres'];
     String language;
 
-    switch ((data as Map<String, dynamic>)['original_languange'].toString()) {
+    switch ((data as Map<String, dynamic>)['original_language'].toString()) {
       case 'ja':
         language = "Japanese";
         break;
