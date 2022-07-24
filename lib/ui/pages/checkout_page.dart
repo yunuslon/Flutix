@@ -12,6 +12,8 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
+    int total = 26500 * widget.ticket.seats.length;
+
     return WillPopScope(
       onWillPop: () async {
         context.bloc().add(GoToSelectSeatPage(widget.ticket));
@@ -111,6 +113,93 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   ],
                                 )
                               ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: defaultMargin),
+                              child: Divider(
+                                color: Color(0xffe4e4e4),
+                                thickness: 1,
+                              ),
+                            ),
+                            labelText(
+                                context, "Order ID", widget.ticket.bookingCode),
+                            SizedBox(height: 9),
+                            labelText(
+                                context, "Cinema", widget.ticket.theater.name),
+                            SizedBox(height: 9),
+                            labelText(context, "Date & Time",
+                                widget.ticket.time.dateAndTime),
+                            SizedBox(height: 9),
+                            labelText(context, "Seat Numbers",
+                                widget.ticket.seatsInString),
+                            SizedBox(height: 9),
+                            labelText(
+                              context,
+                              "Price",
+                              "IDR 25.000 x ${widget.ticket.seats.length}",
+                            ),
+                            SizedBox(height: 9),
+                            labelText(context, "Fee",
+                                "IDR 1.500 x ${widget.ticket.seats.length}"),
+                            SizedBox(height: 9),
+                            labelText(
+                                context,
+                                "Total",
+                                NumberFormat.currency(
+                                  locale: 'id_ID',
+                                  decimalDigits: 0,
+                                  symbol: 'IDR ',
+                                ).format(total),
+                                weightSty: FontWeight.w600,
+                                clr: Colors.black),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: defaultMargin),
+                              child: Divider(
+                                color: Color(0xffe4e4e4),
+                                thickness: 1,
+                              ),
+                            ),
+                            SizedBox(height: 9),
+                            labelText(
+                                context,
+                                "Your Wallet",
+                                NumberFormat.currency(
+                                  locale: 'id_ID',
+                                  decimalDigits: 0,
+                                  symbol: 'IDR ',
+                                ).format(user.balance),
+                                weightSty: FontWeight.w600,
+                                clr: (user.balance >= total)
+                                    ? Color(0xff3e9d9d)
+                                    : Color(0xffff5c83)),
+                            Container(
+                              width: 250,
+                              height: 46,
+                              margin: EdgeInsets.only(top: 36, bottom: 50),
+                              child: RaisedButton(
+                                elevation: 0,
+                                color: user.balance >= total
+                                    ? Color(0xff3e9d9d)
+                                    : mainColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                    (user.balance >= total)
+                                        ? "Checkout Now"
+                                        : "Top Up My Wallet",
+                                    style:
+                                        whiteTextFont.copyWith(fontSize: 16)),
+                                onPressed: () {
+                                  if (user.balance >= total) {
+                                    //! Uang Cukup
+                                  } else {
+                                    //! Uang Tidak Cukup
+
+                                  }
+                                },
+                              ),
                             )
                           ],
                         );
@@ -122,6 +211,34 @@ class _CheckoutPageState extends State<CheckoutPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Padding labelText(BuildContext context, String label, String value,
+      {Color clr, FontWeight weightSty}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            label,
+            style: greyTextFont.copyWith(
+                fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+          SizedBox(
+              width: MediaQuery.of(context).size.width * 0.55,
+              child: Text(
+                value,
+                textAlign: TextAlign.end,
+                style: whiteNumberFont.copyWith(
+                    color: clr ?? Colors.black,
+                    fontSize: 16,
+                    fontWeight: weightSty ?? FontWeight.w400),
+              ))
+        ],
       ),
     );
   }
