@@ -29,10 +29,7 @@ class _MainPageState extends State<MainPage> {
           onPageChanged: (index) {
             bottomNavBarIndex = index;
           },
-          children: <Widget>[
-            MoviePage(),
-            Center(child: Text("New Tickets")),
-          ],
+          children: <Widget>[MoviePage(), TicketPage()],
         ),
         createCustomeButtomNavbar(),
         Align(
