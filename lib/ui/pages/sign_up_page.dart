@@ -79,14 +79,14 @@ class _SignUpPageState extends State<SignUpPage> {
           color: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: ListView(
-            children: [
+            children: <Widget>[
               Column(
-                children: [
+                children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 20, bottom: 22),
                     height: 56,
                     child: Stack(
-                      children: [
+                      children: <Widget>[
                         Align(
                           alignment: Alignment.centerLeft,
                           child: GestureDetector(
@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 104,
                     width: 90,
                     child: Stack(
-                      children: [
+                      children: <Widget>[
                         Container(
                           height: 90,
                           width: 90,

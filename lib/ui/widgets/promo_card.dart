@@ -28,7 +28,7 @@ class PromoCard extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text("OFF ",
                         style: yellowNumberFont.copyWith(
                             fontSize: 18, fontWeight: FontWeight.w300)),

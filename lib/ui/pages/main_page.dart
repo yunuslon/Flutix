@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-      children: [
+      children: <Widget>[
         Container(color: accentColor1),
         SafeArea(child: Container(color: Color(0xfff6f7f9))),
         PageView(
@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
           onPageChanged: (index) {
             bottomNavBarIndex = index;
           },
-          children: [
+          children: <Widget>[
             MoviePage(),
             Center(child: Text("New Tickets")),
           ],

@@ -5,7 +5,7 @@ class MoviePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.vertical,
-      children: [
+      children: <Widget>[
         //? note: Header
         Container(
           decoration: BoxDecoration(
@@ -25,14 +25,14 @@ class MoviePage extends StatelessWidget {
                 });
               }
               return Row(
-                children: [
+                children: <Widget>[
                   Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Color(0xff5f558b), width: 1)),
                     child: Stack(
-                      children: [
+                      children: <Widget>[
                         SpinKitFadingCircle(
                           color: accentColor2,
                           size: 50,
@@ -56,7 +56,7 @@ class MoviePage extends StatelessWidget {
                   SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       SizedBox(
                           width: MediaQuery.of(context).size.width -
                               2 * defaultMargin -

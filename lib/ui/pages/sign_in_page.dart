@@ -50,11 +50,11 @@ class _SignInPageState extends State<SignInPage> {
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: ListView(
-            children: [
+            children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   SizedBox(height: 30),
                   SizedBox(height: 70, child: Image.asset("assets/logo.png")),
                   Container(
@@ -93,7 +93,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   SizedBox(height: 6),
-                  Row(children: [
+                  Row(children: <Widget>[
                     Text("Forgot Password? ",
                         style: greyTextFont.copyWith(
                             fontSize: 12, fontWeight: FontWeight.w400)),
@@ -125,7 +125,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Text(
                         "Start Fresh Now? ",
                         style:

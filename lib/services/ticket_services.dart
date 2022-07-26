@@ -20,8 +20,8 @@ class TicketServices {
 
   static Future<List<Ticket>> getTickets(String userId) async {
     QuerySnapshot snapshot = await ticketCollection.getDocuments();
-    var documents =
-        snapshot.documents.where((document) => document.data['userID']);
+    var documents = snapshot.documents
+        .where((document) => document.data['userID'] == userId);
 
     List<Ticket> tickets = [];
     for (var document in documents) {

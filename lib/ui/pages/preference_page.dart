@@ -41,10 +41,10 @@ class _PreferencePageState extends State<PreferencePage> {
           color: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: ListView(
-            children: [
+            children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Container(
                       height: 56,
                       margin: EdgeInsets.only(top: 20, bottom: 20),

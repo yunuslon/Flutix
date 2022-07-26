@@ -9,7 +9,7 @@ class SplashPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
             height: 136,
             decoration: BoxDecoration(
@@ -43,7 +43,7 @@ class SplashPage extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Text(
                 "Already have an account? ",
                 style: greyTextFont.copyWith(fontWeight: FontWeight.w400),
