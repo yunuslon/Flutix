@@ -29,7 +29,10 @@ class _MainPageState extends State<MainPage> {
           onPageChanged: (index) {
             bottomNavBarIndex = index;
           },
-          children: <Widget>[MoviePage(), TicketPage()],
+          children: <Widget>[
+            MoviePage(),
+            TicketPage(),
+          ],
         ),
         createCustomeButtomNavbar(),
         Align(
@@ -47,10 +50,7 @@ class _MainPageState extends State<MainPage> {
                 child: Icon(MdiIcons.walletPlus,
                     color: Colors.black.withOpacity(0.54)),
               ),
-              onPressed: () {
-                context.bloc<UserBloc>().add(SignOut());
-                AuthServices.signOut();
-              },
+              onPressed: () {},
             ),
           ),
         )

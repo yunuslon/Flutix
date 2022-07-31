@@ -34,7 +34,7 @@ class TicketServices {
           document.data['bookingCode'],
           document.data['seats'].toString().split(','),
           document.data['name'],
-          document.data['totelPrice']));
+          document.data['totalPrice']));
     }
     return tickets;
   }
